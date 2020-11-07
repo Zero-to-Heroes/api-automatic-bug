@@ -16,7 +16,7 @@ export default async (event: APIGatewayEvent, context, callback): Promise<any> =
 	const body = `
 		User: ${feedbackEvent.user}
 		Version: ${feedbackEvent.version}		
-		App logs: ${feedbackEvent.appLogsKey}`;
+		App logs: https://s3-us-west-2.amazonaws.com/com.zerotoheroes.support/${feedbackEvent.appLogsKey}`;
 	const params: SES.Types.SendEmailRequest = {
 		Destination: {
 			ToAddresses: ['sebastien+firestone-bug@tromp.fr'],
