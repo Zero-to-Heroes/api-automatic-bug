@@ -8,7 +8,7 @@ export default async (event: APIGatewayEvent, context, callback): Promise<any> =
 	// console.log('input body', event.body);
 	const feedbackEvent: FeedbackEvent = JSON.parse(event.body);
 
-	if (isBefore(feedbackEvent.version, '6.1.12')) {
+	if (isBefore(feedbackEvent.version, '6.1.15')) {
 		return;
 	}
 
