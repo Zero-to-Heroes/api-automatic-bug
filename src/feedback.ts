@@ -8,7 +8,7 @@ export default async (event: APIGatewayEvent, context, callback): Promise<any> =
 	// console.log('input body', event.body);
 	const feedbackEvent: FeedbackEvent = JSON.parse(event.body);
 
-	if (isBefore(feedbackEvent.version, '6.1.15')) {
+	if (isBefore(feedbackEvent.version, '6.2.15')) {
 		return;
 	}
 
@@ -19,7 +19,7 @@ export default async (event: APIGatewayEvent, context, callback): Promise<any> =
 		App logs: https://s3-us-west-2.amazonaws.com/com.zerotoheroes.support/${feedbackEvent.appLogsKey}`;
 	const params: SES.Types.SendEmailRequest = {
 		Destination: {
-			ToAddresses: ['sebastien+firestone-bug@tromp.fr'],
+			ToAddresses: ['support@firestoneapp.com'],
 		},
 		Message: {
 			Subject: {
@@ -33,7 +33,7 @@ export default async (event: APIGatewayEvent, context, callback): Promise<any> =
 				},
 			},
 		},
-		Source: 'seb@zerotoheroes.com',
+		Source: 'support@firestoneapp.com',
 	} as SES.Types.SendEmailRequest;
 	// console.log('sending email', params);
 	try {
