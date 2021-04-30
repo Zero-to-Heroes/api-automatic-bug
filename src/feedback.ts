@@ -5,14 +5,12 @@ import { SES } from 'aws-sdk';
 // the more traditional callback-style handler.
 // [1]: https://aws.amazon.com/blogs/compute/node-js-8-10-runtime-now-available-in-aws-lambda/
 export default async (event: APIGatewayEvent, context, callback): Promise<any> => {
-	// console.log('input body', event.body);
 	const feedbackEvent: FeedbackEvent = JSON.parse(event.body);
 
 	if (isBefore(feedbackEvent.version, '6.2.15')) {
 		return;
 	}
 
-	// console.log('feedbackEvent', feedbackEvent);
 	const body = `
 		User: ${feedbackEvent.user}
 		Version: ${feedbackEvent.version}		
@@ -35,25 +33,13 @@ export default async (event: APIGatewayEvent, context, callback): Promise<any> =
 		},
 		Source: 'support@firestoneapp.com',
 	} as SES.Types.SendEmailRequest;
-	// console.log('sending email', params);
-	try {
-		const result = await new SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
-		const response = {
-			statusCode: 200,
-			isBase64Encoded: false,
-			body: JSON.stringify({ message: 'ok', result: result }),
-		};
-		// console.log('sending back success reponse', response);
-		return response;
-	} catch (e) {
-		const response = {
-			statusCode: 500,
-			isBase64Encoded: false,
-			body: JSON.stringify({ message: 'not ok', exception: e }),
-		};
-		console.log('sending back error reponse', response);
-		return response;
-	}
+	const result = await new SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+	const response = {
+		statusCode: 200,
+		isBase64Encoded: false,
+		body: JSON.stringify({ message: 'ok', result: result }),
+	};
+	return response;
 };
 
 const isBefore = (appVersion: string, reference: string): boolean => {
